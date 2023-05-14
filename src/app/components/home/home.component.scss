@@ -10,18 +10,6 @@
   background: linear-gradient(146deg, #e1eeff 19.67%, #ffe4fb 127.56%);
 }
 
-.search-button {
-  @apply
-  tw-border 
-  tw-border-solid 
-  tw-border-dark-border
-  tw-rounded-4-px
-  tw-flex
-  tw-justify-center
-  tw-h-60-px
-  tw-w-200-px
-}
-
 .trending-subjects {
   @apply
   tw-bg-table-header-bg
@@ -29,3 +17,67 @@
   tw-rounded-4-px
   tw-shadow-lg
 }
+
+.search-button {
+  @apply
+    tw-flex
+    tw-justify-start
+    tw-items-center
+    tw-rounded-4-px
+    tw-p-12-px
+    tw-mb-4;
+  background-color: #f4f4f4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-icon {
+  margin-right: 8px;
+}
+
+.clear-button,
+.search-icon-button {
+  padding: 0;
+  font-size: 16px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transition: background-color 0.3s ease;
+  color: #555555;
+}
+
+.clear-button:hover,
+.search-icon-button:hover {
+  background-color: #ebebeb;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.previous-button,
+.next-button {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.previous-button:disabled,
+.next-button:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+.page-info {
+  margin: 0 0.5rem;
+}
+
+
