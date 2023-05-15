@@ -4,3 +4,12 @@
   [subjectName]="subjectName"
   ></front-end-internship-assignment-table-view>
 </div>
+
+<!-- Show back button -->
+<button mat-icon-button class="back-button" (click)="goBack()">
+  <mat-icon aria-label="Back Icon">arrow_back</mat-icon>
+</button>
+
+<!-- Loader for the trending subjects -->
+<div *ngIf="isLoading" class="loader"></div>
+

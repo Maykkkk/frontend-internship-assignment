@@ -27,6 +27,7 @@
       </li>
     </ul>
   </section>
+  <div class="search-results-container">
   <div class="search-results" *ngIf="searchResults.length > 0">
     <table>
       <thead>
@@ -49,5 +50,15 @@
       <button mat-button class="next-button" (click)="goToNextPage()" [disabled]="currentPage === getTotalPages()">Next</button>
     </div>
   </div>
+  </div>
+
+<div *ngIf="isLoading" class="loader"></div>
+
+<div *ngIf="showNoResults" class="no-results-container">
+  <div class="no-results">No results found.</div>
+</div>
+
+
+
   
 </div>

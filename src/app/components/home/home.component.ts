@@ -15,14 +15,12 @@ export class HomeComponent implements OnInit {
   totalResults: number = 0;
   pageSize: number = 10;
   noResultsMessage: string = '';
-  // Array to store the search results
-  //apiUrl = 'https://openlibrary.org/search.json?title=';
+  isLoading: boolean = false;
+  showNoResults: boolean = false;
 
   constructor(private http: HttpClient) {
     this.bookSearch = new FormControl('');
   }
-
-  //private cache$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   trendingSubjects: Array<any> = [
     { name: 'JavaScript' },
@@ -45,31 +43,41 @@ export class HomeComponent implements OnInit {
   }
 
   searchBooks(searchTerm: string) {
-    // Replace the URL with your actual API endpoint for searching books
     const apiUrl = `https://openlibrary.org/dev/docs/api/search`;
 
     return this.http.get(apiUrl);
   }
 
-  // performSearch() {
-  //   const searchText = this.bookSearch.value;
-
-  //   if (searchText) {
-  //     const searchUrl = this.apiUrl + searchText;
-
-  //     this.http.get(searchUrl).subscribe((response: any) => {
-  //       this.searchResults = response.docs;
-  //     });
-  //   }
-  // }
-
   performSearch(): void {
-    const apiUrl = `https://openlibrary.org/search.json?q=${this.bookSearch.value}&limit=${this.pageSize}&offset=${(this.currentPage - 1) * this.pageSize}`;
-    this.http.get(apiUrl).subscribe((response: any) => {
-      this.searchResults = response.docs;
-      this.totalResults = response.num_found;
-    });
+    const searchTerm = this.bookSearch.value.trim();
+    if (!searchTerm) {
+      // Handle empty search term
+      this.searchResults = [];
+      this.totalResults = 0;
+      return;
+    }
+    this.isLoading = true; // Set isLoading to true
+    const apiUrl = `https://openlibrary.org/search.json?q=${searchTerm}&limit=${this.pageSize}&offset=${(this.currentPage - 1) * this.pageSize}`;
+    
+  
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        this.searchResults = response.docs;
+        this.totalResults = response.num_found;
+        this.isLoading = false; // Set isLoading to false
+        if (this.searchResults.length === 0) {
+          this.showNoResults = true; // Set showNoResults to true
+        } else {
+          this.showNoResults = false; // Set showNoResults to false
+        }
+      },
+      (error) => {
+        this.isLoading = false; // Set isLoading to false in case of error
+        console.log('Error occurred:', error);
+      }
+    );
   }
+  
 
   private updateSearchResults(response: any): void {
     if (response.docs.length === 0) {
@@ -119,9 +127,4 @@ export class HomeComponent implements OnInit {
   getTotalPages(): number {
     return Math.ceil(this.totalResults / this.pageSize);
   }
-
-  // clearSearch(): void {
-  //   this.bookSearch.reset();// Reset the FormControl value to clear the search input field
-  //   this.searchResults = [];
-  // }
 }
